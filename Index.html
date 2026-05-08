@@ -1,0 +1,2726 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>領袖生評鑑系統 2.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: #4a5568;
+            margin: 20px 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        /* 登入頁面 */
+        .login-container {
+            max-width: 450px;
+            margin: 100px auto;
+        }
+
+        .login-form {
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: bold;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e7ff;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 標籤頁 */
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px;
+            border: none;
+            background: #e0e7ff;
+            color: #4c51bf;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 表單 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="date"],
+        input[type="number"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e7ff;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* 按鈕 */
+        .btn-primary {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 8px 16px;
+            background: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 8px;
+            transition: background 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #2d3748;
+        }
+
+        .btn-success {
+            padding: 8px 16px;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+        }
+
+        .delete-btn, .btn-danger {
+            padding: 8px 16px;
+            background: #f56565;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .delete-btn:hover, .btn-danger:hover {
+            background: #c53030;
+        }
+
+        .logout-btn {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            float: right;
+        }
+
+        .logout-btn:hover {
+            background: #c53030;
+        }
+
+        /* 訊息 */
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .message.error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .message.info {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+
+        .message.warning {
+            background: #feebc8;
+            color: #7c2d12;
+        }
+
+        /* 用戶資訊 */
+        .user-info {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .user-info h3 {
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .user-info p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        /* 項目卡片 */
+        .item-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        th {
+            background: #f7fafc;
+            color: #2d3748;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        /* 拖曳區域 */
+        .drag-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .drag-source {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .drag-target-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .drag-target {
+            background: #fff;
+            border: 2px dashed #cbd5e0;
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 200px;
+        }
+
+        .drag-target.drag-over {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .draggable-item {
+            background: white;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border: 1px solid #e0e7ff;
+            cursor: move;
+            transition: all 0.2s;
+        }
+
+        .draggable-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .draggable-item.dragging {
+            opacity: 0.5;
+        }
+
+        /* 徽章 */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .badge-chief {
+            background: #ddd6fe;
+            color: #4c1d95;
+        }
+
+        .badge-captain {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-member {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .badge-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .badge-success {
+            background: #48bb78;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #ed8936;
+            color: white;
+        }
+
+        .badge-danger {
+            background: #f56565;
+            color: white;
+        }
+
+        /* 統計卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* 評分輸入表格 */
+        .evaluation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .evaluation-table th,
+        .evaluation-table td {
+            padding: 10px;
+            border: 1px solid #e0e7ff;
+        }
+
+        .evaluation-table input[type="number"] {
+            width: 60px;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .evaluation-table textarea {
+            width: 100%;
+            padding: 6px;
+            min-height: 40px;
+        }
+
+        /* QR Code 容器 */
+        .qr-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .qr-container canvas {
+            border: 2px solid #e0e7ff;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+
+        /* 列印樣式 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .card {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            .print-page {
+                page-break-after: always;
+                padding: 20px;
+            }
+        }
+
+        /* 過濾器 */
+        .filters {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 8px;
+        }
+
+        /* 排行榜 */
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .rank-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 20px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .rank-number.top {
+            color: #f59e0b;
+        }
+
+        .rank-number.bottom {
+            color: #f56565;
+        }
+
+        .leaderboard-details {
+            flex: 1;
+        }
+
+        .leaderboard-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .leaderboard-score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        /* 學年選擇器 */
+        .year-selector {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .year-selector select {
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            background: white;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .drag-container {
+                grid-template-columns: 1fr;
+            }
+
+            .drag-target-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+        }
+
+        .no-data {
+            text-align: center;
+            color: #718096;
+            padding: 40px;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* 上傳區域 */
+        .upload-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: #f7fafc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .upload-area.drag-over {
+            border-color: #667eea;
+            background: #e0e7ff;
+        }
+
+        /* 圖片預覽 */
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid #e0e7ff;
+        }
+
+        /* 任務卡片 */
+        .task-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .task-card.expired {
+            border-left-color: #f56565;
+            opacity: 0.7;
+        }
+
+        .task-card.completed {
+            border-left-color: #48bb78;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .task-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .task-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .task-info-item {
+            background: #f7fafc;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .task-info-label {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+
+        .task-info-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        /* 密碼資訊頁樣式 */
+        .password-sheet {
+            background: white;
+            padding: 40px;
+            max-width: 800px;
+            margin: 20px auto;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+        }
+
+        .password-sheet h2 {
+            text-align: center;
+            color: #2d3748;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .password-sheet h3 {
+            color: #4a5568;
+            background: #f7fafc;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .password-sheet .info-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        .password-sheet .info-label {
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .password-sheet .info-value {
+            color: #2d3748;
+        }
+
+        .password-sheet .password-highlight {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #92400e;
+            margin: 20px 0;
+        }
+
+        .password-sheet .url-box {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+
+        .password-sheet footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e7ff;
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- 外部函式庫 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        // ========== 常數定義 ==========
+        const ROLES = {
+            CHIEF: 'chief',
+            CAPTAIN: 'captain',
+            MEMBER: 'member',
+            ADMIN: 'admin'
+        };
+
+        const ADMIN_PASSWORD = 'admin123';
+
+        // ========== 資料管理類別 ==========
+        class DataManager {
+            constructor() {
+                this.currentUser = null;
+                this.currentYear = null;
+                this.loadData();
+            }
+
+            loadData() {
+                // 載入基本資料
+                this.years = JSON.parse(localStorage.getItem('years') || '[]');
+                this.settings = JSON.parse(localStorage.getItem('settings') || '{}');
+
+                // 初始化預設學年
+                if (this.years.length === 0) {
+                    const currentYear = new Date().getFullYear();
+                    this.years.push(`${currentYear}-${currentYear + 1}`);
+                    this.saveYears();
+                }
+
+                this.currentYear = localStorage.getItem('currentYear') || this.years[0];
+                this.loadYearData();
+            }
+
+            loadYearData() {
+                const prefix = `year_${this.currentYear}_`;
+                this.teams = JSON.parse(localStorage.getItem(prefix + 'teams') || '[]');
+                this.members = JSON.parse(localStorage.getItem(prefix + 'members') || '[]');
+                this.tasks = JSON.parse(localStorage.getItem(prefix + 'tasks') || '[]');
+                this.evaluations = JSON.parse(localStorage.getItem(prefix + 'evaluations') || '[]');
+
+                this.initDefaultData();
+            }
+
+            initDefaultData() {
+                // 初始化6個隊伍
+                if (this.teams.length === 0) {
+                    for (let i = 1; i <= 6; i++) {
+                        this.teams.push({
+                            id: `team${i}`,
+                            name: `第${i}隊`,
+                            captains: [],
+                            members: []
+                        });
+                    }
+                    this.saveTeams();
+                }
+
+                // 初始化4位首席
+                if (!this.members.some(m => m.role === ROLES.CHIEF)) {
+                    for (let i = 1; i <= 4; i++) {
+                        this.members.push({
+                            id: `chief${i}`,
+                            name: `首席${i}`,
+                            className: '',
+                            role: ROLES.CHIEF
+                        });
+                    }
+                    this.saveMembers();
+                }
+            }
+
+            // 儲存方法
+            saveYears() {
+                localStorage.setItem('years', JSON.stringify(this.years));
+            }
+
+            saveCurrentYear() {
+                localStorage.setItem('currentYear', this.currentYear);
+            }
+
+            saveSettings() {
+                localStorage.setItem('settings', JSON.stringify(this.settings));
+            }
+
+            saveTeams() {
+                localStorage.setItem(`year_${this.currentYear}_teams`, JSON.stringify(this.teams));
+            }
+
+            saveMembers() {
+                localStorage.setItem(`year_${this.currentYear}_members`, JSON.stringify(this.members));
+            }
+
+            saveTasks() {
+                localStorage.setItem(`year_${this.currentYear}_tasks`, JSON.stringify(this.tasks));
+            }
+
+            saveEvaluations() {
+                localStorage.setItem(`year_${this.currentYear}_evaluations`, JSON.stringify(this.evaluations));
+            }
+
+            // 切換學年
+            switchYear(year) {
+                this.currentYear = year;
+                this.saveCurrentYear();
+                this.loadYearData();
+            }
+
+            // 新增學年
+            addYear(year) {
+                if (!this.years.includes(year)) {
+                    this.years.push(year);
+                    this.saveYears();
+                    this.switchYear(year);
+                    return true;
+                }
+                return false;
+            }
+
+            // 登入驗證（密碼制）
+            login(password) {
+                // 管理員登入
+                if (password === ADMIN_PASSWORD) {
+                    this.currentUser = { role: ROLES.ADMIN, name: '管理員' };
+                    return true;
+                }
+
+                // 檢查是否為評鑑任務密碼
+                for (const task of this.tasks) {
+                    if (!task.active) continue;
+
+                    // 檢查首席密碼
+                    for (const chiefPass of task.chiefPasswords || []) {
+                        if (chiefPass.password === password) {
+                            const chief = this.members.find(m => m.id === chiefPass.chiefId);
+                            if (chief) {
+                                this.currentUser = {
+                                    ...chief,
+                                    taskId: task.id,
+                                    taskName: task.name
+                                };
+                                return true;
+                            }
+                        }
+                    }
+
+                    // 檢查隊長密碼
+                    for (const captainPass of task.captainPasswords || []) {
+                        if (captainPass.password === password) {
+                            const captain = this.members.find(m => m.id === captainPass.captainId);
+                            if (captain) {
+                                this.currentUser = {
+                                    ...captain,
+                                    taskId: task.id,
+                                    taskName: task.name
+                                };
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                return false;
+            }
+
+            logout() {
+                this.currentUser = null;
+            }
+
+            // 取得評鑑對象
+            getEvaluationTargets() {
+                if (!this.currentUser || !this.currentUser.taskId) return [];
+
+                if (this.currentUser.role === ROLES.CHIEF) {
+                    // 首席評鑑所有隊長
+                    return this.members.filter(m => m.role === ROLES.CAPTAIN);
+                } else if (this.currentUser.role === ROLES.CAPTAIN) {
+                    // 隊長評鑑自己隊伍的隊員
+                    const team = this.teams.find(t => t.captains.includes(this.currentUser.id));
+                    if (team) {
+                        return this.members.filter(m => team.members.includes(m.id));
+                    }
+                }
+                return [];
+            }
+
+            // 取得隊伍
+            getTeamByMember(memberId) {
+                return this.teams.find(t =>
+                    t.captains.includes(memberId) || t.members.includes(memberId)
+                );
+            }
+
+            // 新增評鑑
+            addEvaluation(evaluation) {
+                evaluation.id = Date.now();
+                evaluation.evaluatorId = this.currentUser.id;
+                evaluation.evaluatorName = this.currentUser.name;
+                evaluation.taskId = this.currentUser.taskId;
+                evaluation.createdAt = new Date().toISOString();
+                this.evaluations.push(evaluation);
+                this.saveEvaluations();
+            }
+
+            // 批量新增評鑑
+            addBulkEvaluations(evaluations) {
+                evaluations.forEach(eval => {
+                    eval.id = Date.now() + Math.random();
+                    eval.evaluatorId = this.currentUser.id;
+                    eval.evaluatorName = this.currentUser.name;
+                    eval.taskId = this.currentUser.taskId;
+                    eval.createdAt = new Date().toISOString();
+                    this.evaluations.push(eval);
+                });
+                this.saveEvaluations();
+            }
+
+            // 取得統計數據（包含多評鑑者平均）
+            getStatistics(taskId = null) {
+                const stats = {};
+
+                // 篩選評鑑記錄
+                let evals = this.evaluations;
+                if (taskId) {
+                    evals = evals.filter(e => e.taskId === taskId);
+                }
+
+                this.members.forEach(member => {
+                    const memberEvals = evals.filter(e => e.targetId === member.id);
+
+                    if (memberEvals.length > 0) {
+                        // 計算平均分（支援多評鑑者）
+                        const avgPunctuality = memberEvals.reduce((sum, e) => sum + e.punctualityScore, 0) / memberEvals.length;
+                        const avgDuty = memberEvals.reduce((sum, e) => sum + e.dutyScore, 0) / memberEvals.length;
+
+                        stats[member.id] = {
+                            id: member.id,
+                            name: member.name,
+                            className: member.className || '-',
+                            role: member.role,
+                            teamId: this.getTeamByMember(member.id)?.id,
+                            teamName: this.getTeamByMember(member.id)?.name || '-',
+                            evaluationCount: memberEvals.length,
+                            evaluatorCount: new Set(memberEvals.map(e => e.evaluatorId)).size,
+                            avgPunctuality: avgPunctuality.toFixed(2),
+                            avgDuty: avgDuty.toFixed(2),
+                            avgTotal: ((avgPunctuality + avgDuty) / 2).toFixed(2),
+                            evaluations: memberEvals
+                        };
+                    }
+                });
+
+                return stats;
+            }
+
+            // 取得排行榜
+            getLeaderboard(taskId, count = 5) {
+                const stats = this.getStatistics(taskId);
+                const statsArray = Object.values(stats);
+
+                // 排序
+                statsArray.sort((a, b) => parseFloat(b.avgTotal) - parseFloat(a.avgTotal));
+
+                return {
+                    top: statsArray.slice(0, count),
+                    bottom: statsArray.slice(-count).reverse()
+                };
+            }
+
+            // 匯出 Excel
+            exportToExcel(taskId = null) {
+                const stats = this.getStatistics(taskId);
+                const data = [];
+
+                // 表頭
+                data.push(['姓名', '班別', '角色', '隊伍', '評鑑次數', '評鑑者人數', '準時平均', '當值平均', '總平均']);
+
+                // 數據
+                Object.values(stats).forEach(s => {
+                    data.push([
+                        s.name,
+                        s.className,
+                        s.role === ROLES.CHIEF ? '首席' : s.role === ROLES.CAPTAIN ? '隊長' : '隊員',
+                        s.teamName,
+                        s.evaluationCount,
+                        s.evaluatorCount,
+                        s.avgPunctuality,
+                        s.avgDuty,
+                        s.avgTotal
+                    ]);
+                });
+
+                // 創建工作簿
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.aoa_to_sheet(data);
+                XLSX.utils.book_append_sheet(wb, ws, '評鑑統計');
+
+                // 下載
+                const task = taskId ? this.tasks.find(t => t.id === taskId) : null;
+                const fileName = task
+                    ? `${this.currentYear}_${task.name}_評鑑統計.xlsx`
+                    : `${this.currentYear}_評鑑統計.xlsx`;
+
+                XLSX.writeFile(wb, fileName);
+            }
+
+            // 生成批量匯入範本
+            generateImportTemplate() {
+                const data = [
+                    ['姓名', '班別', '角色', '隊伍編號'],
+                    ['張三', '5A', 'captain', '1'],
+                    ['李四', '5B', 'captain', '1'],
+                    ['王五', '4A', 'member', '1'],
+                    ['', '', '', ''],
+                    ['角色說明：chief=首席, captain=隊長, member=隊員', '', '', ''],
+                    ['隊伍編號：1-6 (僅限隊長和隊員需要填寫)', '', '', '']
+                ];
+
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.aoa_to_sheet(data);
+                XLSX.utils.book_append_sheet(wb, ws, '範本');
+
+                XLSX.writeFile(wb, `領袖生名單匯入範本_${this.currentYear}.xlsx`);
+            }
+
+            // 匯入成員資料
+            importMembers(data) {
+                const imported = [];
+                const errors = [];
+
+                data.forEach((row, index) => {
+                    if (index === 0) return; // 跳過表頭
+                    if (!row[0] || row[0].includes('說明')) return; // 跳過空行和說明
+
+                    const [name, className, role, teamNum] = row;
+
+                    if (!name || !role) {
+                        errors.push(`第${index + 1}行：姓名或角色為空`);
+                        return;
+                    }
+
+                    if (!['chief', 'captain', 'member'].includes(role)) {
+                        errors.push(`第${index + 1}行：角色「${role}」無效`);
+                        return;
+                    }
+
+                    const member = {
+                        id: `${role}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                        name,
+                        className: className || '',
+                        role: role
+                    };
+
+                    this.members.push(member);
+
+                    // 分配到隊伍
+                    if ((role === 'captain' || role === 'member') && teamNum) {
+                        const teamId = `team${teamNum}`;
+                        const team = this.teams.find(t => t.id === teamId);
+
+                        if (team) {
+                            if (role === 'captain') {
+                                if (!team.captains.includes(member.id)) {
+                                    team.captains.push(member.id);
+                                }
+                            } else {
+                                if (!team.members.includes(member.id)) {
+                                    team.members.push(member.id);
+                                }
+                            }
+                        } else {
+                            errors.push(`第${index + 1}行：隊伍編號「${teamNum}」無效`);
+                        }
+                    }
+
+                    imported.push(member);
+                });
+
+                if (imported.length > 0) {
+                    this.saveMembers();
+                    this.saveTeams();
+                }
+
+                return { imported, errors };
+            }
+        }
+
+        const dataManager = new DataManager();
+
+        // ========== UI 管理類別 ==========
+        class UI {
+            constructor() {
+                this.app = document.getElementById('app');
+                this.render();
+            }
+
+            render() {
+                if (!dataManager.currentUser) {
+                    this.renderLogin();
+                } else if (dataManager.currentUser.role === ROLES.ADMIN) {
+                    this.renderAdmin();
+                } else {
+                    this.renderEvaluator();
+                }
+            }
+
+            // 登入頁面
+            renderLogin() {
+                this.app.innerHTML = `
+                    <div class="login-container">
+                        <div class="card">
+                            <div class="login-form">
+                                <div class="login-title">📋 領袖生評鑑系統 2.0</div>
+                                <div id="loginMessage"></div>
+                                <form id="loginForm">
+                                    <div class="input-group">
+                                        <label>請輸入密碼</label>
+                                        <input type="password" id="password" required placeholder="請輸入您的評鑑密碼" autofocus>
+                                    </div>
+                                    <button type="submit" class="login-btn">登入</button>
+                                </form>
+                                <p style="margin-top: 20px; text-align: center; color: #718096; font-size: 14px;">
+                                    請使用老師提供的密碼登入系統
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const password = document.getElementById('password').value.trim();
+
+                    if (dataManager.login(password)) {
+                        this.render();
+                    } else {
+                        this.showMessage('loginMessage', '密碼錯誤，請檢查後重試', 'error');
+                        document.getElementById('password').value = '';
+                        document.getElementById('password').focus();
+                    }
+                });
+            }
+
+            // 管理員後台
+            renderAdmin() {
+                this.app.innerHTML = `
+                    <div class="container">
+                        <h1>📋 領袖生評鑑系統 2.0 - 管理後台</h1>
+
+                        <!-- 學年選擇器 -->
+                        <div class="year-selector no-print">
+                            <div>
+                                <label style="display: inline; margin-right: 10px;">當前學年：</label>
+                                <select id="yearSelect" onchange="ui.handleYearChange(this.value)">
+                                    ${dataManager.years.map(y =>
+                                        `<option value="${y}" ${y === dataManager.currentYear ? 'selected' : ''}>${y}</option>`
+                                    ).join('')}
+                                </select>
+                                <button class="btn-secondary" onclick="ui.showAddYearDialog()" style="margin-left: 10px;">新增學年</button>
+                            </div>
+                            <button class="logout-btn" onclick="ui.logout()">登出</button>
+                        </div>
+
+                        <div class="card">
+                            <div class="tab-buttons no-print">
+                                <button class="tab-btn active" onclick="ui.switchTab('import')">批量匯入</button>
+                                <button class="tab-btn" onclick="ui.switchTab('teams')">隊伍管理</button>
+                                <button class="tab-btn" onclick="ui.switchTab('students')">學生資料</button>
+                                <button class="tab-btn" onclick="ui.switchTab('tasks')">評鑑任務</button>
+                                <button class="tab-btn" onclick="ui.switchTab('stats')">評鑑統計</button>
+                                <button class="tab-btn" onclick="ui.switchTab('leaderboard')">排行榜</button>
+                                <button class="tab-btn" onclick="ui.switchTab('settings')">系統設定</button>
+                            </div>
+
+                            <div id="import-tab" class="tab-content active">${this.renderImportTab()}</div>
+                            <div id="teams-tab" class="tab-content">${this.renderTeamsTab()}</div>
+                            <div id="students-tab" class="tab-content">${this.renderStudentsTab()}</div>
+                            <div id="tasks-tab" class="tab-content">${this.renderTasksTab()}</div>
+                            <div id="stats-tab" class="tab-content">${this.renderStatsTab()}</div>
+                            <div id="leaderboard-tab" class="tab-content">${this.renderLeaderboardTab()}</div>
+                            <div id="settings-tab" class="tab-content">${this.renderSettingsTab()}</div>
+                        </div>
+                    </div>
+                `;
+
+                this.attachAdminEvents();
+            }
+
+            // 批量匯入標籤
+            renderImportTab() {
+                return `
+                    <h2>批量匯入學生資料</h2>
+                    <div id="importMessage"></div>
+
+                    <div class="item-card">
+                        <h3>步驟 1：下載範本</h3>
+                        <p style="color: #718096; margin-bottom: 15px;">
+                            下載 Excel 範本檔案，填寫學生資料後上傳
+                        </p>
+                        <button class="btn-primary" onclick="dataManager.generateImportTemplate()">
+                            📥 下載匯入範本
+                        </button>
+                    </div>
+
+                    <div class="item-card">
+                        <h3>步驟 2：上傳填寫完成的檔案</h3>
+                        <input type="file" id="importFile" accept=".xlsx,.xls" style="display: none;">
+                        <div class="upload-area" onclick="document.getElementById('importFile').click()">
+                            <p style="font-size: 48px; margin-bottom: 10px;">📤</p>
+                            <p style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">點擊選擇檔案</p>
+                            <p style="color: #718096; font-size: 14px;">支援 .xlsx 和 .xls 格式</p>
+                        </div>
+                    </div>
+
+                    <div class="item-card">
+                        <h3>當前學年學生統計</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">${dataManager.members.filter(m => m.role === ROLES.CHIEF).length}</div>
+                                <div class="stat-label">首席領袖生</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${dataManager.members.filter(m => m.role === ROLES.CAPTAIN).length}</div>
+                                <div class="stat-label">隊長</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${dataManager.members.filter(m => m.role === ROLES.MEMBER).length}</div>
+                                <div class="stat-label">隊員</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${dataManager.members.length}</div>
+                                <div class="stat-label">總人數</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 隊伍管理標籤（拖曳功能）
+            renderTeamsTab() {
+                const unassignedMembers = dataManager.members.filter(m => {
+                    if (m.role === ROLES.CHIEF) return false;
+                    return !dataManager.getTeamByMember(m.id);
+                });
+
+                return `
+                    <h2>隊伍管理（拖曳分配）</h2>
+                    <p style="color: #718096; margin-bottom: 20px;">
+                        從左側拖曳學生到右側隊伍進行分配
+                    </p>
+
+                    <div class="drag-container">
+                        <div class="drag-source">
+                            <h3>未分配學生</h3>
+                            <div id="unassignedList">
+                                ${unassignedMembers.length === 0
+                                    ? '<p style="color: #718096; padding: 20px; text-align: center;">所有學生已分配</p>'
+                                    : unassignedMembers.map(m => `
+                                        <div class="draggable-item" draggable="true" data-member-id="${m.id}">
+                                            <div style="font-weight: bold;">${m.name}</div>
+                                            <div style="font-size: 12px; color: #718096;">
+                                                ${m.className || '未設定班別'} |
+                                                ${m.role === ROLES.CAPTAIN ? '隊長' : '隊員'}
+                                            </div>
+                                        </div>
+                                    `).join('')
+                                }
+                            </div>
+                        </div>
+
+                        <div class="drag-target-container">
+                            ${dataManager.teams.map(team => `
+                                <div class="drag-target" data-team-id="${team.id}">
+                                    <h3 style="margin-bottom: 15px;">${team.name}</h3>
+
+                                    <div style="margin-bottom: 15px;">
+                                        <strong>隊長：</strong>
+                                        ${team.captains.map(cId => {
+                                            const captain = dataManager.members.find(m => m.id === cId);
+                                            return captain ? `
+                                                <div class="draggable-item" draggable="true" data-member-id="${cId}" style="margin-top: 5px;">
+                                                    <span class="badge badge-captain">隊長</span>
+                                                    ${captain.name} ${captain.className ? `(${captain.className})` : ''}
+                                                    <button class="delete-btn" style="float: right; padding: 4px 8px; font-size: 12px;"
+                                                            onclick="ui.removeFromTeam('${team.id}', '${cId}', 'captain')">移除</button>
+                                                </div>
+                                            ` : '';
+                                        }).join('') || '<span style="color: #718096; font-size: 13px;">尚無隊長</span>'}
+                                    </div>
+
+                                    <div>
+                                        <strong>隊員：</strong>
+                                        <div style="margin-top: 5px;">
+                                            ${team.members.map(mId => {
+                                                const member = dataManager.members.find(m => m.id === mId);
+                                                return member ? `
+                                                    <div class="draggable-item" draggable="true" data-member-id="${mId}" style="margin-top: 5px;">
+                                                        ${member.name} ${member.className ? `(${member.className})` : ''}
+                                                        <button class="delete-btn" style="float: right; padding: 4px 8px; font-size: 12px;"
+                                                                onclick="ui.removeFromTeam('${team.id}', '${mId}', 'member')">移除</button>
+                                                    </div>
+                                                ` : '';
+                                            }).join('') || '<span style="color: #718096; font-size: 13px;">尚無隊員</span>'}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 學生資料標籤
+            renderStudentsTab() {
+                const chiefs = dataManager.members.filter(m => m.role === ROLES.CHIEF);
+                const captains = dataManager.members.filter(m => m.role === ROLES.CAPTAIN);
+                const members = dataManager.members.filter(m => m.role === ROLES.MEMBER);
+
+                return `
+                    <h2>學生資料管理</h2>
+
+                    <div class="item-card">
+                        <div class="item-header">
+                            <h3>首席領袖生</h3>
+                            <button class="btn-primary" onclick="ui.showAddStudentDialog('${ROLES.CHIEF}')">+ 新增首席</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>班別</th>
+                                    <th>評鑑統計</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${chiefs.map(m => {
+                                    const stats = dataManager.getStatistics()[m.id];
+                                    return `
+                                        <tr>
+                                            <td>${m.name}</td>
+                                            <td>${m.className || '未設定'}</td>
+                                            <td>${stats ? `${stats.evaluationCount}次評鑑 | 平均${stats.avgTotal}分` : '尚無評鑑'}</td>
+                                            <td>
+                                                <button class="btn-secondary" onclick="ui.editStudent('${m.id}')">編輯</button>
+                                                <button class="delete-btn" onclick="ui.deleteStudent('${m.id}')">刪除</button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('') || '<tr><td colspan="4" style="text-align: center; color: #718096;">暫無資料</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="item-header">
+                            <h3>隊長</h3>
+                            <button class="btn-primary" onclick="ui.showAddStudentDialog('${ROLES.CAPTAIN}')">+ 新增隊長</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>班別</th>
+                                    <th>隊伍</th>
+                                    <th>評鑑統計</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${captains.map(m => {
+                                    const team = dataManager.getTeamByMember(m.id);
+                                    const stats = dataManager.getStatistics()[m.id];
+                                    return `
+                                        <tr>
+                                            <td>${m.name}</td>
+                                            <td>${m.className || '未設定'}</td>
+                                            <td>${team ? team.name : '未分配'}</td>
+                                            <td>${stats ? `${stats.evaluationCount}次評鑑 | 平均${stats.avgTotal}分` : '尚無評鑑'}</td>
+                                            <td>
+                                                <button class="btn-secondary" onclick="ui.editStudent('${m.id}')">編輯</button>
+                                                <button class="delete-btn" onclick="ui.deleteStudent('${m.id}')">刪除</button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('') || '<tr><td colspan="5" style="text-align: center; color: #718096;">暫無資料</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="item-card">
+                        <div class="item-header">
+                            <h3>隊員</h3>
+                            <button class="btn-primary" onclick="ui.showAddStudentDialog('${ROLES.MEMBER}')">+ 新增隊員</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>班別</th>
+                                    <th>隊伍</th>
+                                    <th>評鑑統計</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${members.map(m => {
+                                    const team = dataManager.getTeamByMember(m.id);
+                                    const stats = dataManager.getStatistics()[m.id];
+                                    return `
+                                        <tr>
+                                            <td>${m.name}</td>
+                                            <td>${m.className || '未設定'}</td>
+                                            <td>${team ? team.name : '未分配'}</td>
+                                            <td>${stats ? `${stats.evaluationCount}次評鑑 | 平均${stats.avgTotal}分` : '尚無評鑑'}</td>
+                                            <td>
+                                                <button class="btn-secondary" onclick="ui.editStudent('${m.id}')">編輯</button>
+                                                <button class="delete-btn" onclick="ui.deleteStudent('${m.id}')">刪除</button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('') || '<tr><td colspan="5" style="text-align: center; color: #718096;">暫無資料</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            // 評鑑任務標籤
+            renderTasksTab() {
+                return `
+                    <h2>評鑑任務管理</h2>
+                    <div id="tasksMessage"></div>
+
+                    <button class="btn-primary" onclick="ui.showCreateTaskDialog()" style="margin-bottom: 20px;">
+                        + 建立新任務
+                    </button>
+
+                    ${dataManager.tasks.length === 0 ? `
+                        <div class="no-data">
+                            尚未建立任何評鑑任務<br>
+                            點擊上方按鈕建立第一個任務
+                        </div>
+                    ` : dataManager.tasks.map(task => {
+                        const deadline = new Date(task.deadline);
+                        const now = new Date();
+                        const daysLeft = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+                        const isExpired = daysLeft < 0;
+                        const isActive = task.active;
+
+                        return `
+                            <div class="task-card ${isExpired ? 'expired' : ''} ${!isActive ? 'completed' : ''}">
+                                <div class="task-header">
+                                    <div>
+                                        <div class="task-title">${task.name}</div>
+                                        <div style="margin-top: 5px;">
+                                            ${isActive
+                                                ? `<span class="badge badge-success">進行中</span>`
+                                                : `<span class="badge">已關閉</span>`
+                                            }
+                                            ${isExpired
+                                                ? `<span class="badge badge-danger">已逾期</span>`
+                                                : daysLeft <= 3
+                                                    ? `<span class="badge badge-warning">即將截止</span>`
+                                                    : ''
+                                            }
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn-secondary" onclick="ui.showTaskDetails('${task.id}')">查看詳情</button>
+                                        <button class="btn-secondary" onclick="ui.exportTaskPasswords('${task.id}')">匯出密碼</button>
+                                        ${isActive
+                                            ? `<button class="btn-danger" onclick="ui.closeTask('${task.id}')">關閉任務</button>`
+                                            : `<button class="btn-success" onclick="ui.reopenTask('${task.id}')">重新開啟</button>`
+                                        }
+                                        <button class="delete-btn" onclick="ui.deleteTask('${task.id}')">刪除</button>
+                                    </div>
+                                </div>
+
+                                <div class="task-info">
+                                    <div class="task-info-item">
+                                        <div class="task-info-label">截止日期</div>
+                                        <div class="task-info-value">${deadline.toLocaleDateString('zh-TW')}</div>
+                                    </div>
+                                    <div class="task-info-item">
+                                        <div class="task-info-label">剩餘天數</div>
+                                        <div class="task-info-value" style="color: ${isExpired ? '#f56565' : daysLeft <= 3 ? '#ed8936' : '#48bb78'}">
+                                            ${isExpired ? '已逾期' : `${daysLeft} 天`}
+                                        </div>
+                                    </div>
+                                    <div class="task-info-item">
+                                        <div class="task-info-label">完成進度</div>
+                                        <div class="task-info-value">
+                                            ${dataManager.evaluations.filter(e => e.taskId === task.id).length} 筆評鑑
+                                        </div>
+                                    </div>
+                                    <div class="task-info-item">
+                                        <div class="task-info-label">評鑑者</div>
+                                        <div class="task-info-value">
+                                            首席 ${(task.chiefPasswords || []).length} 位 |
+                                            隊長 ${(task.captainPasswords || []).length} 位
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                `;
+            }
+
+            // 評鑑統計標籤
+            renderStatsTab() {
+                const tasks = dataManager.tasks;
+                const selectedTaskId = document.getElementById('statsTaskSelect')?.value || 'all';
+
+                const stats = selectedTaskId === 'all'
+                    ? dataManager.getStatistics()
+                    : dataManager.getStatistics(selectedTaskId);
+
+                const statsArray = Object.values(stats);
+
+                return `
+                    <h2>評鑑統計</h2>
+
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label>選擇任務</label>
+                            <select id="statsTaskSelect" onchange="ui.refreshStatsTab()">
+                                <option value="all">所有任務</option>
+                                ${tasks.map(t => `<option value="${t.id}" ${t.id === selectedTaskId ? 'selected' : ''}>${t.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>角色篩選</label>
+                            <select id="statsRoleFilter" onchange="ui.filterStats()">
+                                <option value="all">全部</option>
+                                <option value="${ROLES.CHIEF}">首席</option>
+                                <option value="${ROLES.CAPTAIN}">隊長</option>
+                                <option value="${ROLES.MEMBER}">隊員</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>隊伍篩選</label>
+                            <select id="statsTeamFilter" onchange="ui.filterStats()">
+                                <option value="all">全部</option>
+                                ${dataManager.teams.map(t => `<option value="${t.id}">${t.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>排序方式</label>
+                            <select id="statsSortBy" onchange="ui.filterStats()">
+                                <option value="avgTotal-desc">總分（高到低）</option>
+                                <option value="avgTotal-asc">總分（低到高）</option>
+                                <option value="avgPunctuality-desc">準時（高到低）</option>
+                                <option value="avgDuty-desc">當值（高到低）</option>
+                                <option value="evaluationCount-desc">評鑑次數</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <button class="btn-primary" onclick="dataManager.exportToExcel('${selectedTaskId === 'all' ? '' : selectedTaskId}')">
+                                📊 匯出 Excel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="statsTableContainer">
+                        ${statsArray.length === 0 ? `
+                            <div class="no-data">暫無評鑑數據</div>
+                        ` : `
+                            <table id="statsTable">
+                                <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                        <th>班別</th>
+                                        <th>角色</th>
+                                        <th>隊伍</th>
+                                        <th>評鑑次數</th>
+                                        <th>評鑑者人數</th>
+                                        <th>準時平均</th>
+                                        <th>當值平均</th>
+                                        <th>總平均</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${statsArray.map(s => `
+                                        <tr data-role="${s.role}" data-team="${s.teamId || 'none'}">
+                                            <td>${s.name}</td>
+                                            <td>${s.className}</td>
+                                            <td>
+                                                ${s.role === ROLES.CHIEF ? '<span class="badge badge-chief">首席</span>' : ''}
+                                                ${s.role === ROLES.CAPTAIN ? '<span class="badge badge-captain">隊長</span>' : ''}
+                                                ${s.role === ROLES.MEMBER ? '<span class="badge badge-member">隊員</span>' : ''}
+                                            </td>
+                                            <td>${s.teamName}</td>
+                                            <td>${s.evaluationCount}</td>
+                                            <td>${s.evaluatorCount}</td>
+                                            <td>${s.avgPunctuality}</td>
+                                            <td>${s.avgDuty}</td>
+                                            <td><strong>${s.avgTotal}</strong></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `}
+                    </div>
+                `;
+            }
+
+            // 排行榜標籤
+            renderLeaderboardTab() {
+                const tasks = dataManager.tasks;
+                const selectedTaskId = document.getElementById('leaderboardTaskSelect')?.value ||
+                    (tasks.length > 0 ? tasks[0].id : null);
+
+                if (!selectedTaskId) {
+                    return `
+                        <h2>表現排行榜</h2>
+                        <div class="no-data">請先建立評鑑任務</div>
+                    `;
+                }
+
+                const leaderboard = dataManager.getLeaderboard(selectedTaskId, 5);
+
+                return `
+                    <h2>表現排行榜</h2>
+
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label>選擇任務</label>
+                            <select id="leaderboardTaskSelect" onchange="ui.refreshLeaderboardTab()">
+                                ${tasks.map(t => `<option value="${t.id}" ${t.id === selectedTaskId ? 'selected' : ''}>${t.name}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="item-card">
+                        <h3>🏆 表現最佳 Top 5</h3>
+                        ${leaderboard.top.length === 0 ? `
+                            <div class="no-data">暫無數據</div>
+                        ` : leaderboard.top.map((s, index) => `
+                            <div class="leaderboard-item">
+                                <div class="rank-number top">#${index + 1}</div>
+                                <div class="leaderboard-details">
+                                    <div class="leaderboard-name">
+                                        ${s.name}
+                                        ${s.className ? `<span style="color: #718096; font-size: 14px;">(${s.className})</span>` : ''}
+                                        ${s.role === ROLES.CHIEF ? '<span class="badge badge-chief">首席</span>' : ''}
+                                        ${s.role === ROLES.CAPTAIN ? '<span class="badge badge-captain">隊長</span>' : ''}
+                                        ${s.role === ROLES.MEMBER ? '<span class="badge badge-member">隊員</span>' : ''}
+                                    </div>
+                                    <div style="color: #718096; font-size: 14px; margin-top: 5px;">
+                                        ${s.teamName} | 準時：${s.avgPunctuality} | 當值：${s.avgDuty} | 評鑑${s.evaluationCount}次
+                                    </div>
+                                </div>
+                                <div class="leaderboard-score">${s.avgTotal}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="item-card">
+                        <h3>⚠️ 需要改進 Bottom 5</h3>
+                        ${leaderboard.bottom.length === 0 ? `
+                            <div class="no-data">暫無數據</div>
+                        ` : leaderboard.bottom.map((s, index) => `
+                            <div class="leaderboard-item">
+                                <div class="rank-number bottom">#${leaderboard.bottom.length - index}</div>
+                                <div class="leaderboard-details">
+                                    <div class="leaderboard-name">
+                                        ${s.name}
+                                        ${s.className ? `<span style="color: #718096; font-size: 14px;">(${s.className})</span>` : ''}
+                                        ${s.role === ROLES.CHIEF ? '<span class="badge badge-chief">首席</span>' : ''}
+                                        ${s.role === ROLES.CAPTAIN ? '<span class="badge badge-captain">隊長</span>' : ''}
+                                        ${s.role === ROLES.MEMBER ? '<span class="badge badge-member">隊員</span>' : ''}
+                                    </div>
+                                    <div style="color: #718096; font-size: 14px; margin-top: 5px;">
+                                        ${s.teamName} | 準時：${s.avgPunctuality} | 當值：${s.avgDuty} | 評鑑${s.evaluationCount}次
+                                    </div>
+                                </div>
+                                <div class="leaderboard-score">${s.avgTotal}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // 系統設定標籤
+            renderSettingsTab() {
+                const currentUrl = window.location.href;
+                const scoringCriteria = dataManager.settings.scoringCriteria || '';
+                const scoringImage = dataManager.settings.scoringImage || '';
+
+                return `
+                    <h2>系統設定</h2>
+
+                    <div class="item-card">
+                        <h3>系統網址設定</h3>
+                        <div class="form-group">
+                            <label>系統網址（用於生成 QR Code）</label>
+                            <input type="text" id="systemUrl" value="${dataManager.settings.systemUrl || currentUrl}"
+                                   placeholder="https://your-site.com">
+                        </div>
+                        <button class="btn-primary" onclick="ui.saveSystemUrl()">儲存網址</button>
+                    </div>
+
+                    <div class="item-card">
+                        <h3>評分準則設定</h3>
+
+                        <div class="form-group">
+                            <label>上傳評分準則圖片（選填）</label>
+                            <input type="file" id="scoringImageFile" accept="image/*" onchange="ui.handleScoringImageUpload(event)">
+                            ${scoringImage ? `
+                                <div style="margin-top: 15px;">
+                                    <img src="${scoringImage}" class="image-preview" alt="評分準則">
+                                    <button class="btn-danger" style="margin-top: 10px;" onclick="ui.removeScoringImage()">移除圖片</button>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="form-group">
+                            <label>評分準則文字說明（選填）</label>
+                            <textarea id="scoringCriteria" rows="10" placeholder="請輸入評分準則...">${scoringCriteria}</textarea>
+                        </div>
+
+                        <button class="btn-primary" onclick="ui.saveScoringCriteria()">儲存評分準則</button>
+                    </div>
+
+                    <div class="item-card">
+                        <h3>資料管理</h3>
+                        <button class="btn-danger" onclick="ui.clearAllData()">清除所有資料</button>
+                        <p style="color: #f56565; margin-top: 10px; font-size: 14px;">
+                            ⚠️ 警告：此操作將刪除所有學年的資料，且無法復原
+                        </p>
+                    </div>
+                `;
+            }
+
+            // 評鑑者介面
+            renderEvaluator() {
+                const task = dataManager.tasks.find(t => t.id === dataManager.currentUser.taskId);
+                const targets = dataManager.getEvaluationTargets();
+
+                const deadline = new Date(task.deadline);
+                const now = new Date();
+                const daysLeft = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+                const isExpired = daysLeft < 0;
+
+                this.app.innerHTML = `
+                    <div class="container">
+                        <h1>📋 領袖生評鑑系統</h1>
+                        <div class="card">
+                            <button class="logout-btn no-print" onclick="ui.logout()">登出</button>
+
+                            <div class="user-info">
+                                <h3>${dataManager.currentUser.name}</h3>
+                                <p>
+                                    ${dataManager.currentUser.role === ROLES.CHIEF ? '首席領袖生' : '隊長'} |
+                                    ${dataManager.currentUser.className || ''}
+                                </p>
+                            </div>
+
+                            ${isExpired ? `
+                                <div class="message error">
+                                    ⚠️ 此任務已逾期，請聯絡老師
+                                </div>
+                            ` : daysLeft <= 3 ? `
+                                <div class="message warning">
+                                    ⏰ 距離截止還有 ${daysLeft} 天，請儘快完成評鑑
+                                </div>
+                            ` : `
+                                <div class="message info">
+                                    📅 距離截止還有 ${daysLeft} 天
+                                </div>
+                            `}
+
+                            <div class="task-card">
+                                <div class="task-title">${task.name}</div>
+                                <div class="task-info">
+                                    <div class="task-info-item">
+                                        <div class="task-info-label">截止日期</div>
+                                        <div class="task-info-value">${deadline.toLocaleDateString('zh-TW')}</div>
+                                    </div>
+                                    <div class="task-info-item">
+                                        <div class="task-info-label">評鑑對象</div>
+                                        <div class="task-info-value">${targets.length} 人</div>
+                                    </div>
+                                    <div class="task-info-item">
+                                        <div class="task-info-label">已完成</div>
+                                        <div class="task-info-value">
+                                            ${dataManager.evaluations.filter(e =>
+                                                e.taskId === task.id && e.evaluatorId === dataManager.currentUser.id
+                                            ).length} 筆
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-buttons no-print">
+                                <button class="tab-btn active" onclick="ui.switchTab('evaluate')">進行評鑑</button>
+                                <button class="tab-btn" onclick="ui.switchTab('myrecords')">我的記錄</button>
+                                <button class="tab-btn" onclick="ui.switchTab('criteria')">評分準則</button>
+                            </div>
+
+                            <div id="evaluate-tab" class="tab-content active">
+                                ${this.renderEvaluationForm(targets, task)}
+                            </div>
+                            <div id="myrecords-tab" class="tab-content">
+                                ${this.renderMyRecords()}
+                            </div>
+                            <div id="criteria-tab" class="tab-content">
+                                ${this.renderCriteria()}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                this.attachEvaluatorEvents();
+            }
+
+            // 評鑑表單（試算表式）
+            renderEvaluationForm(targets, task) {
+                if (targets.length === 0) {
+                    return '<div class="no-data">暫無需評鑑的人員</div>';
+                }
+
+                return `
+                    <h2>批量評鑑</h2>
+                    <div id="evaluateMessage"></div>
+
+                    <p style="color: #718096; margin-bottom: 20px;">
+                        請為以下人員評分，完成後點擊「提交所有評分」按鈕
+                    </p>
+
+                    <form id="bulkEvaluationForm">
+                        <table class="evaluation-table">
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>班別</th>
+                                    <th>隊伍</th>
+                                    <th style="min-width: 80px;">準時表現<br>(1-5分)</th>
+                                    <th style="min-width: 80px;">當值表現<br>(1-5分)</th>
+                                    <th style="min-width: 200px;">備註</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${targets.map(t => {
+                                    const team = dataManager.getTeamByMember(t.id);
+                                    return `
+                                        <tr>
+                                            <td>${t.name}</td>
+                                            <td>${t.className || '-'}</td>
+                                            <td>${team ? team.name : '-'}</td>
+                                            <td>
+                                                <input type="number"
+                                                       class="punctuality-score"
+                                                       data-target-id="${t.id}"
+                                                       min="1" max="5"
+                                                       placeholder="1-5"
+                                                       required>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       class="duty-score"
+                                                       data-target-id="${t.id}"
+                                                       min="1" max="5"
+                                                       placeholder="1-5"
+                                                       required>
+                                            </td>
+                                            <td>
+                                                <textarea class="comment"
+                                                          data-target-id="${t.id}"
+                                                          placeholder="選填"></textarea>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label>評鑑日期</label>
+                            <input type="date" id="evaluationDate" required>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="width: 100%; padding: 15px; font-size: 18px;">
+                            ✅ 提交所有評分
+                        </button>
+                    </form>
+                `;
+            }
+
+            // 我的評鑑記錄
+            renderMyRecords() {
+                const myEvals = dataManager.evaluations
+                    .filter(e => e.evaluatorId === dataManager.currentUser.id && e.taskId === dataManager.currentUser.taskId)
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                if (myEvals.length === 0) {
+                    return '<div class="no-data">您還沒有提交任何評鑑</div>';
+                }
+
+                return `
+                    <h2>我的評鑑記錄</h2>
+                    ${myEvals.map(e => {
+                        const target = dataManager.members.find(m => m.id === e.targetId);
+                        return `
+                            <div class="item-card">
+                                <div class="item-header">
+                                    <div>
+                                        <div style="font-size: 18px; font-weight: bold;">${target ? target.name : '未知'}</div>
+                                        <div style="color: #718096; font-size: 14px; margin-top: 5px;">
+                                            評鑑日期：${e.evaluationDate} | 提交時間：${new Date(e.createdAt).toLocaleString('zh-TW')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                                        <div style="color: #718096; font-size: 13px; margin-bottom: 5px;">準時表現</div>
+                                        <div style="font-size: 24px; font-weight: bold; color: #667eea;">${e.punctualityScore}/5</div>
+                                    </div>
+                                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                                        <div style="color: #718096; font-size: 13px; margin-bottom: 5px;">當值表現</div>
+                                        <div style="font-size: 24px; font-weight: bold; color: #667eea;">${e.dutyScore}/5</div>
+                                    </div>
+                                </div>
+                                ${e.comment ? `
+                                    <div style="background: white; padding: 12px; border-radius: 8px; margin-top: 10px;">
+                                        <strong>備註：</strong>${e.comment}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }).join('')}
+                `;
+            }
+
+            // 評分準則
+            renderCriteria() {
+                const scoringImage = dataManager.settings.scoringImage || '';
+                const scoringCriteria = dataManager.settings.scoringCriteria || '';
+
+                if (!scoringImage && !scoringCriteria) {
+                    return `
+                        <div class="no-data">
+                            老師尚未設定評分準則<br>
+                            請詢問老師或參考平時指導
+                        </div>
+                    `;
+                }
+
+                return `
+                    <h2>評分準則</h2>
+
+                    ${scoringImage ? `
+                        <div class="item-card">
+                            <img src="${scoringImage}" style="max-width: 100%; border-radius: 8px;" alt="評分準則">
+                        </div>
+                    ` : ''}
+
+                    ${scoringCriteria ? `
+                        <div class="item-card">
+                            <pre style="white-space: pre-wrap; font-family: inherit; margin: 0;">${scoringCriteria}</pre>
+                        </div>
+                    ` : ''}
+                `;
+            }
+
+            // ========== 事件處理 ==========
+
+            attachAdminEvents() {
+                // 批量匯入
+                const importFile = document.getElementById('importFile');
+                if (importFile) {
+                    importFile.addEventListener('change', (e) => this.handleImportFile(e));
+                }
+
+                // 拖曳事件
+                this.setupDragAndDrop();
+            }
+
+            attachEvaluatorEvents() {
+                // 設定今天的日期
+                const dateInput = document.getElementById('evaluationDate');
+                if (dateInput) {
+                    dateInput.valueAsDate = new Date();
+                }
+
+                // 批量評鑑表單
+                const form = document.getElementById('bulkEvaluationForm');
+                if (form) {
+                    form.addEventListener('submit', (e) => this.handleBulkEvaluation(e));
+                }
+            }
+
+            // 拖曳功能設定
+            setupDragAndDrop() {
+                const draggables = document.querySelectorAll('.draggable-item');
+                const dropZones = document.querySelectorAll('.drag-target');
+
+                draggables.forEach(item => {
+                    item.addEventListener('dragstart', (e) => {
+                        item.classList.add('dragging');
+                        e.dataTransfer.effectAllowed = 'move';
+                        e.dataTransfer.setData('text/plain', item.dataset.memberId);
+                    });
+
+                    item.addEventListener('dragend', (e) => {
+                        item.classList.remove('dragging');
+                    });
+                });
+
+                dropZones.forEach(zone => {
+                    zone.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        zone.classList.add('drag-over');
+                    });
+
+                    zone.addEventListener('dragleave', (e) => {
+                        zone.classList.remove('drag-over');
+                    });
+
+                    zone.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        zone.classList.remove('drag-over');
+
+                        const memberId = e.dataTransfer.getData('text/plain');
+                        const teamId = zone.dataset.teamId;
+
+                        this.assignToTeam(memberId, teamId);
+                    });
+                });
+            }
+
+            // 分配到隊伍
+            assignToTeam(memberId, teamId) {
+                const member = dataManager.members.find(m => m.id === memberId);
+                const team = dataManager.teams.find(t => t.id === teamId);
+
+                if (!member || !team) return;
+
+                // 從舊隊伍移除
+                dataManager.teams.forEach(t => {
+                    t.captains = t.captains.filter(id => id !== memberId);
+                    t.members = t.members.filter(id => id !== memberId);
+                });
+
+                // 加入新隊伍
+                if (member.role === ROLES.CAPTAIN) {
+                    if (!team.captains.includes(memberId)) {
+                        team.captains.push(memberId);
+                    }
+                } else {
+                    if (!team.members.includes(memberId)) {
+                        team.members.push(memberId);
+                    }
+                }
+
+                dataManager.saveTeams();
+
+                // 重新渲染隊伍標籤
+                document.getElementById('teams-tab').innerHTML = this.renderTeamsTab();
+                this.setupDragAndDrop();
+            }
+
+            // 從隊伍移除
+            removeFromTeam(teamId, memberId, type) {
+                if (!confirm('確定要移除此成員嗎？')) return;
+
+                const team = dataManager.teams.find(t => t.id === teamId);
+                if (!team) return;
+
+                if (type === 'captain') {
+                    team.captains = team.captains.filter(id => id !== memberId);
+                } else {
+                    team.members = team.members.filter(id => id !== memberId);
+                }
+
+                dataManager.saveTeams();
+
+                document.getElementById('teams-tab').innerHTML = this.renderTeamsTab();
+                this.setupDragAndDrop();
+            }
+
+            // 處理批量匯入
+            handleImportFile(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = new Uint8Array(event.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+                        const result = dataManager.importMembers(jsonData);
+
+                        if (result.imported.length > 0) {
+                            this.showMessage('importMessage',
+                                `成功匯入 ${result.imported.length} 位學生`, 'success');
+                        }
+
+                        if (result.errors.length > 0) {
+                            this.showMessage('importMessage',
+                                `匯入完成，但有 ${result.errors.length} 個錯誤：\n${result.errors.join('\n')}`, 'warning');
+                        }
+
+                        // 重新渲染
+                        setTimeout(() => {
+                            document.getElementById('import-tab').innerHTML = this.renderImportTab();
+                            const newFileInput = document.getElementById('importFile');
+                            if (newFileInput) {
+                                newFileInput.addEventListener('change', (e) => this.handleImportFile(e));
+                            }
+                        }, 2000);
+
+                    } catch (error) {
+                        this.showMessage('importMessage', '檔案格式錯誤：' + error.message, 'error');
+                    }
+                };
+
+                reader.readAsArrayBuffer(file);
+            }
+
+            // 處理批量評鑑
+            handleBulkEvaluation(e) {
+                e.preventDefault();
+
+                const evaluationDate = document.getElementById('evaluationDate').value;
+                const punctualityInputs = document.querySelectorAll('.punctuality-score');
+                const dutyInputs = document.querySelectorAll('.duty-score');
+                const commentInputs = document.querySelectorAll('.comment');
+
+                const evaluations = [];
+                let hasError = false;
+
+                punctualityInputs.forEach((input, index) => {
+                    const targetId = input.dataset.targetId;
+                    const punctualityScore = parseInt(input.value);
+                    const dutyScore = parseInt(dutyInputs[index].value);
+                    const comment = commentInputs[index].value;
+
+                    if (!punctualityScore || !dutyScore) {
+                        hasError = true;
+                        return;
+                    }
+
+                    if (punctualityScore < 1 || punctualityScore > 5 || dutyScore < 1 || dutyScore > 5) {
+                        hasError = true;
+                        return;
+                    }
+
+                    const target = dataManager.members.find(m => m.id === targetId);
+
+                    evaluations.push({
+                        targetId,
+                        targetName: target.name,
+                        evaluationDate,
+                        punctualityScore,
+                        dutyScore,
+                        comment
+                    });
+                });
+
+                if (hasError) {
+                    this.showMessage('evaluateMessage', '請確保所有分數都已填寫且在 1-5 分之間', 'error');
+                    return;
+                }
+
+                if (evaluations.length === 0) {
+                    this.showMessage('evaluateMessage', '請至少評鑑一位成員', 'error');
+                    return;
+                }
+
+                dataManager.addBulkEvaluations(evaluations);
+
+                this.showMessage('evaluateMessage',
+                    `成功提交 ${evaluations.length} 筆評鑑！`, 'success');
+
+                // 重置表單
+                document.getElementById('bulkEvaluationForm').reset();
+                document.getElementById('evaluationDate').valueAsDate = new Date();
+
+                // 切換到記錄標籤
+                setTimeout(() => {
+                    this.switchTab('myrecords');
+                }, 1500);
+            }
+
+            // ========== 對話框 ==========
+
+            showAddYearDialog() {
+                const year = prompt('請輸入新學年（格式：2025-2026）：');
+                if (!year) return;
+
+                if (!/^\d{4}-\d{4}$/.test(year)) {
+                    alert('學年格式錯誤，請使用格式：2025-2026');
+                    return;
+                }
+
+                if (dataManager.addYear(year)) {
+                    this.render();
+                } else {
+                    alert('此學年已存在');
+                }
+            }
+
+            showAddStudentDialog(role) {
+                const name = prompt('請輸入學生姓名：');
+                if (!name) return;
+
+                const className = prompt('請輸入班別（如：5A）：');
+
+                const id = `${role}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+                dataManager.members.push({
+                    id,
+                    name,
+                    className: className || '',
+                    role
+                });
+
+                dataManager.saveMembers();
+
+                document.getElementById('students-tab').innerHTML = this.renderStudentsTab();
+            }
+
+            editStudent(memberId) {
+                const member = dataManager.members.find(m => m.id === memberId);
+                if (!member) return;
+
+                const newName = prompt('修改姓名：', member.name);
+                if (newName) member.name = newName;
+
+                const newClass = prompt('修改班別：', member.className || '');
+                if (newClass !== null) member.className = newClass;
+
+                dataManager.saveMembers();
+
+                document.getElementById('students-tab').innerHTML = this.renderStudentsTab();
+            }
+
+            deleteStudent(memberId) {
+                if (!confirm('確定要刪除此學生嗎？這將同時移除所有相關評鑑記錄。')) return;
+
+                // 從隊伍移除
+                dataManager.teams.forEach(team => {
+                    team.captains = team.captains.filter(id => id !== memberId);
+                    team.members = team.members.filter(id => id !== memberId);
+                });
+
+                // 刪除成員
+                dataManager.members = dataManager.members.filter(m => m.id !== memberId);
+
+                // 刪除相關評鑑
+                dataManager.evaluations = dataManager.evaluations.filter(e =>
+                    e.targetId !== memberId && e.evaluatorId !== memberId
+                );
+
+                dataManager.saveTeams();
+                dataManager.saveMembers();
+                dataManager.saveEvaluations();
+
+                document.getElementById('students-tab').innerHTML = this.renderStudentsTab();
+            }
+
+            showCreateTaskDialog() {
+                const taskName = prompt('請輸入任務名稱（例如：第1次評鑑）：');
+                if (!taskName) return;
+
+                const deadline = prompt('請輸入截止日期（格式：2025-12-31）：');
+                if (!deadline || !/^\d{4}-\d{2}-\d{2}$/.test(deadline)) {
+                    alert('日期格式錯誤');
+                    return;
+                }
+
+                // 生成密碼
+                const chiefPasswords = [];
+                const chiefs = dataManager.members.filter(m => m.role === ROLES.CHIEF);
+                chiefs.forEach((chief, index) => {
+                    const password = `C${String(index + 1).padStart(3, '0')}`;
+                    chiefPasswords.push({
+                        chiefId: chief.id,
+                        chiefName: chief.name,
+                        password
+                    });
+                });
+
+                const captainPasswords = [];
+                const captains = dataManager.members.filter(m => m.role === ROLES.CAPTAIN);
+                captains.forEach((captain, index) => {
+                    const team = dataManager.getTeamByMember(captain.id);
+                    const password = `T${team ? team.id.replace('team', '') : '0'}${String(index % 2 + 1).padStart(2, '0')}`;
+                    captainPasswords.push({
+                        captainId: captain.id,
+                        captainName: captain.name,
+                        password
+                    });
+                });
+
+                const task = {
+                    id: `task_${Date.now()}`,
+                    name: taskName,
+                    deadline,
+                    active: true,
+                    createdAt: new Date().toISOString(),
+                    chiefPasswords,
+                    captainPasswords
+                };
+
+                dataManager.tasks.push(task);
+                dataManager.saveTasks();
+
+                this.showMessage('tasksMessage', '任務建立成功！', 'success');
+
+                setTimeout(() => {
+                    document.getElementById('tasks-tab').innerHTML = this.renderTasksTab();
+                }, 1000);
+            }
+
+            showTaskDetails(taskId) {
+                const task = dataManager.tasks.find(t => t.id === taskId);
+                if (!task) return;
+
+                alert(`
+任務名稱：${task.name}
+截止日期：${task.deadline}
+狀態：${task.active ? '進行中' : '已關閉'}
+
+首席密碼：
+${(task.chiefPasswords || []).map(p => `${p.chiefName}: ${p.password}`).join('\n')}
+
+隊長密碼：
+${(task.captainPasswords || []).map(p => `${p.captainName}: ${p.password}`).join('\n')}
+                `);
+            }
+
+            exportTaskPasswords(taskId) {
+                const task = dataManager.tasks.find(t => t.id === taskId);
+                if (!task) return;
+
+                // 生成老師版密碼頁
+                this.generateTeacherPasswordSheet(task);
+            }
+
+            generateTeacherPasswordSheet(task) {
+                const systemUrl = dataManager.settings.systemUrl || window.location.href;
+
+                const content = `
+                    <div class="password-sheet">
+                        <h2>領袖生評鑑系統 - 密碼總覽（老師版）</h2>
+
+                        <div class="info-row">
+                            <div class="info-label">學年：</div>
+                            <div class="info-value">${dataManager.currentYear}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">評鑑任務：</div>
+                            <div class="info-value">${task.name}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">截止日期：</div>
+                            <div class="info-value">${new Date(task.deadline).toLocaleDateString('zh-TW')}</div>
+                        </div>
+
+                        <h3>首席領袖生登入密碼</h3>
+                        ${(task.chiefPasswords || []).map(p => `
+                            <div class="info-row">
+                                <div class="info-label">${p.chiefName}：</div>
+                                <div class="info-value" style="font-family: monospace; font-weight: bold;">${p.password}</div>
+                            </div>
+                        `).join('')}
+
+                        <h3>隊長登入密碼</h3>
+                        ${(task.captainPasswords || []).map(p => {
+                            const captain = dataManager.members.find(m => m.id === p.captainId);
+                            const team = dataManager.getTeamByMember(p.captainId);
+                            return `
+                                <div class="info-row">
+                                    <div class="info-label">${team ? team.name : ''} - ${p.captainName}：</div>
+                                    <div class="info-value" style="font-family: monospace; font-weight: bold;">${p.password}</div>
+                                </div>
+                            `;
+                        }).join('')}
+
+                        <div class="url-box">
+                            <strong>登入網址：</strong><br>
+                            ${systemUrl}
+                        </div>
+
+                        <footer>
+                            本資料頁供老師管理使用，請妥善保管<br>
+                            生成時間：${new Date().toLocaleString('zh-TW')}
+                        </footer>
+                    </div>
+                `;
+
+                const printWindow = window.open('', '', 'width=800,height=600');
+                printWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>密碼總覽 - ${task.name}</title>
+                        <style>
+                            ${document.querySelector('style').textContent}
+                            body { background: white; }
+                        </style>
+                    </head>
+                    <body>
+                        ${content}
+                        <script>
+                            window.onload = () => {
+                                window.print();
+                            };
+                        </script>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+            }
+
+            closeTask(taskId) {
+                if (!confirm('確定要關閉此任務嗎？關閉後將無法登入進行評鑑。')) return;
+
+                const task = dataManager.tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.active = false;
+                    dataManager.saveTasks();
+                    document.getElementById('tasks-tab').innerHTML = this.renderTasksTab();
+                }
+            }
+
+            reopenTask(taskId) {
+                const task = dataManager.tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.active = true;
+                    dataManager.saveTasks();
+                    document.getElementById('tasks-tab').innerHTML = this.renderTasksTab();
+                }
+            }
+
+            deleteTask(taskId) {
+                if (!confirm('確定要刪除此任務嗎？相關的評鑑記錄也會被刪除。')) return;
+
+                dataManager.tasks = dataManager.tasks.filter(t => t.id !== taskId);
+                dataManager.evaluations = dataManager.evaluations.filter(e => e.taskId !== taskId);
+
+                dataManager.saveTasks();
+                dataManager.saveEvaluations();
+
+                document.getElementById('tasks-tab').innerHTML = this.renderTasksTab();
+            }
+
+            // ========== 輔助方法 ==========
+
+            handleYearChange(year) {
+                dataManager.switchYear(year);
+                this.render();
+            }
+
+            switchTab(tabName) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                event.target.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+            }
+
+            refreshStatsTab() {
+                document.getElementById('stats-tab').innerHTML = this.renderStatsTab();
+            }
+
+            refreshLeaderboardTab() {
+                document.getElementById('leaderboard-tab').innerHTML = this.renderLeaderboardTab();
+            }
+
+            filterStats() {
+                const roleFilter = document.getElementById('statsRoleFilter').value;
+                const teamFilter = document.getElementById('statsTeamFilter').value;
+                const sortBy = document.getElementById('statsSortBy').value;
+
+                const rows = document.querySelectorAll('#statsTable tbody tr');
+
+                // 篩選
+                rows.forEach(row => {
+                    const role = row.dataset.role;
+                    const team = row.dataset.team;
+
+                    const roleMatch = roleFilter === 'all' || role === roleFilter;
+                    const teamMatch = teamFilter === 'all' || team === teamFilter;
+
+                    row.style.display = (roleMatch && teamMatch) ? '' : 'none';
+                });
+
+                // 排序
+                const tbody = document.querySelector('#statsTable tbody');
+                const rowsArray = Array.from(rows);
+                const [field, order] = sortBy.split('-');
+
+                rowsArray.sort((a, b) => {
+                    let aVal, bVal;
+
+                    if (field === 'avgTotal') {
+                        aVal = parseFloat(a.cells[8].textContent);
+                        bVal = parseFloat(b.cells[8].textContent);
+                    } else if (field === 'avgPunctuality') {
+                        aVal = parseFloat(a.cells[6].textContent);
+                        bVal = parseFloat(b.cells[6].textContent);
+                    } else if (field === 'avgDuty') {
+                        aVal = parseFloat(a.cells[7].textContent);
+                        bVal = parseFloat(b.cells[7].textContent);
+                    } else if (field === 'evaluationCount') {
+                        aVal = parseInt(a.cells[4].textContent);
+                        bVal = parseInt(b.cells[4].textContent);
+                    }
+
+                    return order === 'desc' ? bVal - aVal : aVal - bVal;
+                });
+
+                rowsArray.forEach(row => tbody.appendChild(row));
+            }
+
+            saveSystemUrl() {
+                const url = document.getElementById('systemUrl').value.trim();
+                if (!url) {
+                    alert('請輸入網址');
+                    return;
+                }
+
+                dataManager.settings.systemUrl = url;
+                dataManager.saveSettings();
+                alert('網址已儲存');
+            }
+
+            handleScoringImageUpload(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    dataManager.settings.scoringImage = e.target.result;
+                    dataManager.saveSettings();
+                    document.getElementById('settings-tab').innerHTML = this.renderSettingsTab();
+                };
+                reader.readAsDataURL(file);
+            }
+
+            removeScoringImage() {
+                if (!confirm('確定要移除評分準則圖片嗎？')) return;
+
+                dataManager.settings.scoringImage = '';
+                dataManager.saveSettings();
+                document.getElementById('settings-tab').innerHTML = this.renderSettingsTab();
+            }
+
+            saveScoringCriteria() {
+                const criteria = document.getElementById('scoringCriteria').value;
+                dataManager.settings.scoringCriteria = criteria;
+                dataManager.saveSettings();
+                alert('評分準則已儲存');
+            }
+
+            clearAllData() {
+                if (!confirm('確定要清除所有資料嗎？此操作無法復原！')) return;
+                if (!confirm('最後確認：真的要刪除所有學年的資料嗎？')) return;
+
+                localStorage.clear();
+                location.reload();
+            }
+
+            showMessage(elementId, text, type) {
+                const messageDiv = document.getElementById(elementId);
+                if (messageDiv) {
+                    messageDiv.className = `message ${type}`;
+                    messageDiv.textContent = text;
+                    messageDiv.style.display = 'block';
+
+                    setTimeout(() => {
+                        messageDiv.style.display = 'none';
+                    }, 3000);
+                }
+            }
+
+            logout() {
+                dataManager.logout();
+                this.render();
+            }
+        }
+
+        // 初始化
+        const ui = new UI();
+    </script>
+</body>
+</html>
